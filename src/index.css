@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -53,12 +52,33 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', sans-serif;
-    line-height: 1.6;
+    font-family: 'Prompt', 'Inter', sans-serif;
+    line-height: 1.7;
+    font-weight: 400;
   }
 
   html {
     scroll-behavior: smooth;
+  }
+
+  /* Thai text optimization */
+  .thai-text {
+    font-family: 'Prompt', sans-serif;
+    line-height: 1.8;
+    letter-spacing: 0.025em;
+  }
+
+  /* Headings with Thai support */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Prompt', sans-serif;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  /* Better paragraph spacing for Thai text */
+  p {
+    line-height: 1.8;
+    letter-spacing: 0.015em;
   }
 
   /* Better scrollbar */
@@ -139,6 +159,20 @@
     100% {
       background-position: 200% 0;
     }
+  }
+
+  /* Thai text utilities */
+  .thai-heading {
+    font-family: 'Prompt', sans-serif;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0.025em;
+  }
+
+  .thai-body {
+    font-family: 'Prompt', sans-serif;
+    line-height: 1.8;
+    letter-spacing: 0.015em;
   }
 }
 
