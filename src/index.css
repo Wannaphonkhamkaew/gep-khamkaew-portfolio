@@ -53,22 +53,112 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
   }
 
   html {
     scroll-behavior: smooth;
   }
+
+  /* Better scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-background;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary/50;
+  }
 }
 
 @layer utilities {
   .gradient-text {
-    background: linear-gradient(135deg, #00D9FF 0%, #6366F1 100%);
+    background: linear-gradient(135deg, #00D9FF 0%, #6366F1 50%, #8B5CF6 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    animation: gradient-shift 3s ease-in-out infinite;
+  }
+
+  @keyframes gradient-shift {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
   }
 
   .glow {
     box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+  }
+
+  .glow-hover:hover {
+    box-shadow: 0 0 30px rgba(0, 217, 255, 0.5);
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+  }
+
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Enhanced animations */
+  .animate-float-slow {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  /* Smooth transitions for all interactive elements */
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Loading states */
+  .loading-shimmer {
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+}
+
+/* Improved focus states for accessibility */
+@layer components {
+  .focus-visible:focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background;
+  }
+
+  /* Better button styles */
+  .btn-primary {
+    @apply bg-primary text-background px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-primary/90 hover:scale-105 hover:shadow-lg hover:shadow-primary/25 focus-visible;
+  }
+
+  .btn-secondary {
+    @apply border-2 border-primary text-primary px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-primary hover:text-background hover:scale-105 focus-visible;
+  }
+
+  /* Card hover effects */
+  .card-hover {
+    @apply transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-primary/10 hover:border-primary/50;
   }
 }
