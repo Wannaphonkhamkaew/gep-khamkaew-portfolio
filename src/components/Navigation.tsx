@@ -1,7 +1,9 @@
 
 import { useState, useEffect } from 'react';
-import { Menu, X, Code, User, Briefcase, Mail, Home, LogIn } from 'lucide-react';
+import { Menu, X, Code, User, Briefcase, Mail, Home, LogIn, LogOut } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
+import { Button } from '@/components/ui/button';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,6 +11,7 @@ const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const { user, signOut } = useAuth();
 
   const navItems = [
     { id: 'home', label: 'หน้าแรก', icon: <Home size={16} />, path: '/' },
@@ -75,6 +78,12 @@ const Navigation = () => {
     setIsOpen(false);
   };
 
+  const handleLogout = async () => {
+    await signOut();
+    navigate('/');
+    setIsOpen(false);
+  };
+
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       scrolled ? 'bg-background/95 backdrop-blur-md border-b border-border shadow-lg' : 'bg-transparent'
@@ -105,18 +114,35 @@ const Navigation = () => {
               </button>
             ))}
             
-            {/* Login Button */}
-            <button
-              onClick={handleLoginClick}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105 ml-2 ${
-                location.pathname === '/login'
-                  ? 'text-primary bg-accent/70 shadow-md'
-                  : 'text-muted-foreground hover:text-primary hover:bg-accent/30'
-              }`}
-            >
-              <LogIn size={16} />
-              <span>เข้าสู่ระบบ</span>
-            </button>
+            {/* Auth Button */}
+            {user ? (
+              <div className="flex items-center space-x-2 ml-2">
+                <span className="text-sm text-muted-foreground">
+                  สวัสดี {user.email}
+                </span>
+                <Button
+                  onClick={handleLogout}
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center space-x-2"
+                >
+                  <LogOut size={16} />
+                  <span>ออกจากระบบ</span>
+                </Button>
+              </div>
+            ) : (
+              <button
+                onClick={handleLoginClick}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105 ml-2 ${
+                  location.pathname === '/login'
+                    ? 'text-primary bg-accent/70 shadow-md'
+                    : 'text-muted-foreground hover:text-primary hover:bg-accent/30'
+                }`}
+              >
+                <LogIn size={16} />
+                <span>เข้าสู่ระบบ</span>
+              </button>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -149,18 +175,33 @@ const Navigation = () => {
                 </button>
               ))}
               
-              {/* Mobile Login Button */}
-              <button
-                onClick={handleLoginClick}
-                className={`flex items-center space-x-3 w-full px-4 py-3 rounded-lg text-sm font-medium transition-all duration-300 ${
-                  location.pathname === '/login'
-                    ? 'text-primary bg-accent/70'
-                    : 'text-muted-foreground hover:text-primary hover:bg-accent/30'
-                }`}
-              >
-                <LogIn size={16} />
-                <span>เข้าสู่ระบบ</span>
-              </button>
+              {/* Mobile Auth Button */}
+              {user ? (
+                <div className="space-y-2 pt-2 border-t border-border">
+                  <div className="px-4 py-2 text-sm text-muted-foreground">
+                    สวัสดี {user.email}
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center space-x-3 w-full px-4 py-3 rounded-lg text-sm font-medium text-muted-foreground hover:text-primary hover:bg-accent/30 transition-all duration-300"
+                  >
+                    <LogOut size={16} />
+                    <span>ออกจากระบบ</span>
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={handleLoginClick}
+                  className={`flex items-center space-x-3 w-full px-4 py-3 rounded-lg text-sm font-medium transition-all duration-300 ${
+                    location.pathname === '/login'
+                      ? 'text-primary bg-accent/70'
+                      : 'text-muted-foreground hover:text-primary hover:bg-accent/30'
+                  }`}
+                >
+                  <LogIn size={16} />
+                  <span>เข้าสู่ระบบ</span>
+                </button>
+              )}
             </div>
           </div>
         )}
